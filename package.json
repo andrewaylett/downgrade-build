@@ -1,18 +1,22 @@
 {
-  "name": "prepackage-checks",
-  "description": "Validates package invariants before publishing",
+  "name": "downgrade-build",
+  "description": "Ensures that we can build with our lowest dependency versions",
   "author": "Andrew Aylett",
-  "version": "0.1.2",
+  "version": "0.0.0",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrewaylett/self-throttle.git"
+    "url": "https://github.com/andrewaylett/downgrade-build.git"
   },
   "type": "module",
-  "bin": "./dist/index.js",
+  "bin": "./dist/cli.js",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc --build .",
-    "postbuild": "prepackage-checks && node --experimental-vm-modules dist/index.js build",
+    "postbuild": "prepackage-checks && node --experimental-vm-modules dist/cli.js build",
     "lint": "eslint .",
     "test": "echo 'no tests :('",
     "prebuild": "npm run test",
