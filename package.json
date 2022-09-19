@@ -37,7 +37,7 @@
   "devDependencies": {
     "@tsconfig/node16": "1.0.3",
     "@types/node": "16.11.59",
-    "@types/semver": "^7.3.12",
+    "@types/semver": "7.3.12",
     "@typescript-eslint/eslint-plugin": "5.36.2",
     "@typescript-eslint/parser": "5.36.2",
     "eslint": "8.23.1",
