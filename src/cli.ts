@@ -18,8 +18,7 @@
 
 import path from 'node:path';
 import { tmpdir } from 'node:os';
-
-import { mkdtemp } from './fs.js';
+import { mkdtemp } from 'node:fs/promises';
 
 import {
     copyProject,

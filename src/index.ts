@@ -16,11 +16,11 @@
 
 import path from 'node:path';
 import { spawn } from 'node:child_process';
+import { cp, mkdir, writeFile } from 'node:fs/promises';
 
 import semver from 'semver';
 
 import { IgnoreStack } from './ignores.js';
-import { cp, mkdir, writeFile } from './fs.js';
 import { PACKAGE_JSON, PackageFile } from './package.js';
 
 async function* lslr(dir: string): AsyncGenerator<string> {
@@ -38,6 +38,22 @@ export async function copyProject(dir: string): Promise<void> {
             await mkdir(path.parse(target).dir, { recursive: true });
             await cp(file, target);
         } catch (error) {
+            console.log(error);
+        }
+    }
+    try {
+        // If we have a .npmrc for the current project, we should use it even if ignored
+        await cp('.npmrc', path.resolve(dir, './.npmrc'));
+        console.log('Local .npmrc found and copied');
+    } catch (error) {
+        if (
+            error !== null &&
+            typeof error === 'object' &&
+            (error as NodeJS.ErrnoException).errno === -2 // ENOENT
+        ) {
+            // If we don't have a .npmrc then hopefully that's fine too -- if not, we'll fail later
+            console.log('No local .npmrc to copy');
+        } else {
             console.log(error);
         }
     }

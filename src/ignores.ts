@@ -15,10 +15,9 @@
  */
 
 import path from 'node:path';
+import { readdir, readFile } from 'node:fs/promises';
 
 import ignore from 'ignore';
-
-import { readdir, readFile } from './fs.js';
 
 import type { Dirent } from 'node:fs';
 import type { Ignore } from 'ignore';
@@ -27,6 +26,12 @@ type StackEntry = {
     child: string;
     ignore: Ignore;
 };
+
+const NOT_MENTIONED = 'NOT_MENTIONED';
+const IGNORED = 'IGNORED';
+const UNIGNORED = 'UNIGNORED';
+
+type IgnoreStatus = typeof NOT_MENTIONED | typeof IGNORED | typeof UNIGNORED;
 
 export class IgnoreStack {
     readonly #stack: StackEntry[];
@@ -132,25 +137,32 @@ export class IgnoreStack {
     ignored(name: string): boolean {
         type TestResult = {
             name: string;
-            ignored: boolean;
-            unignored: boolean;
+            status: IgnoreStatus;
         };
+        // We work from the innermost ignore file outwards, the first
+        // result found is the one we return
         const result = this.#stack.reduceRight(
-            (previous, current): TestResult => {
-                const newName = path.join(current.child, previous.name);
-                const r = current.ignore.test(newName);
-                return {
-                    name: newName,
-                    ignored: r.ignored && !previous.unignored,
-                    unignored: r.unignored && !previous.ignored,
-                };
+            (previous: TestResult, current: StackEntry): TestResult => {
+                if (previous.status !== NOT_MENTIONED) {
+                    const newName = path.join(current.child, previous.name);
+                    const r = current.ignore.test(newName);
+                    const status: IgnoreStatus = r.unignored
+                        ? UNIGNORED
+                        : r.ignored
+                        ? IGNORED
+                        : NOT_MENTIONED;
+                    return {
+                        name: newName,
+                        status,
+                    } satisfies TestResult;
+                }
+                return previous;
             },
             {
                 name,
-                ignored: false,
-                unignored: false,
+                status: NOT_MENTIONED,
             },
         );
-        return result.ignored;
+        return result.status == IGNORED;
     }
 }
