@@ -33,7 +33,7 @@ repos:
             additional_dependencies:
                 - prettier@2.8.1
     - repo: https://github.com/Lucas-C/pre-commit-hooks
-      rev: v1.4.0
+      rev: v1.4.1
       hooks:
           - id: insert-license
             types:
