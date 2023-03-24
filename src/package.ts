@@ -25,6 +25,7 @@ type NestedStringRecords =
     | { [s: string]: NestedStringRecords };
 export type PackageFile = Partial<
     Record<string, NestedStringRecords> & {
+        version?: string;
         source: string;
         main: string;
         types: string;

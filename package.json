@@ -15,15 +15,17 @@
     "default": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsc --build .",
-    "postbuild": "prepackage-checks && node --experimental-vm-modules dist/cli.js build",
+    "build": "true // We run tsc in prebuild -> test -> pretest -> buildOnly",
+    "buildOnly": "tsc --build .",
+    "postbuild": "prepackage-checks",
+    "test": "node --experimental-vm-modules dist/cli.js build",
     "lint": "eslint .",
-    "test": "echo 'no tests :('",
     "prebuild": "npm run test",
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && npm run buildOnly",
     "lint:fix": "npm run lint -- --fix",
-    "prepublishOnly": "npm run build",
-    "dev": "npm run lint:fix && npm run build"
+    "dev": "npm run lint:fix && npm run build",
+    "clean": "rm -rf build dist",
+    "prepare": "npm run clean && npm run buildOnly"
   },
   "prettier": {
     "semi": true,
