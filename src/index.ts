@@ -77,8 +77,16 @@ const strip = <T extends VersionSpec>(deps: T): T => {
     ) as T;
 };
 
+function markVersionAsDowngradeBuild(version: string | undefined): string {
+    if (version) {
+        return `${version}-downgraded-build`;
+    }
+    return '0-downgraded-build';
+}
+
 export async function writePackageFile(dir: string) {
     const packageFile = await PACKAGE_JSON;
+    const version = markVersionAsDowngradeBuild(packageFile['version']);
     const dependencies = strip(packageFile.dependencies);
     const devDependencies = strip(packageFile.devDependencies);
     const peerDependencies = strip(packageFile.peerDependencies);
@@ -89,6 +97,7 @@ export async function writePackageFile(dir: string) {
     }
     const packageJson: PackageFile = {
         ...packageFile,
+        version,
         dependencies,
         devDependencies,
         peerDependencies,
