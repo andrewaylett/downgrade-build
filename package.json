@@ -2,7 +2,7 @@
   "name": "downgrade-build",
   "description": "Ensures that we can build with our lowest dependency versions",
   "author": "Andrew Aylett",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
