@@ -27,7 +27,7 @@ repos:
                 - json
             exclude: LICENSE
     - repo: https://github.com/pre-commit/mirrors-prettier
-      rev: v3.0.0
+      rev: v3.0.3
       hooks:
           - id: prettier
             additional_dependencies:
