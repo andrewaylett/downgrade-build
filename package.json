@@ -46,6 +46,6 @@
     "eslint-config-andrewaylett": "3.0.0",
     "prepackage-checks": "0.1.2",
     "prettier": "3.0.3",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   }
 }
