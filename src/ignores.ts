@@ -149,8 +149,8 @@ export class IgnoreStack {
                     const status: IgnoreStatus = r.unignored
                         ? UNIGNORED
                         : r.ignored
-                        ? IGNORED
-                        : NOT_MENTIONED;
+                          ? IGNORED
+                          : NOT_MENTIONED;
                     return {
                         name: newName,
                         status,
