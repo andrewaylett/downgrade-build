@@ -67,6 +67,13 @@ const strip = <T extends VersionSpec>(deps: T): T => {
     return Object.fromEntries(
         Object.entries(deps).map(
             ([k, v]: [string, string]): [string, string] => {
+                // We need to handle non-version dependency specifiers
+                if (v.includes(':')) {
+                    if (v.startsWith('file:')) {
+                        // Fix relative path to still work
+                    }
+                    return [k, v];
+                }
                 const min = semver.minVersion(v);
                 if (!min) {
                     throw new Error(`No semver minimum for ${v}`);

@@ -1,7 +1,0 @@
-{
-    "root": true,
-    "extends": ["andrewaylett"],
-    "rules": {
-        "jest/no-deprecated-functions": 0
-    }
-}
