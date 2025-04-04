@@ -42,7 +42,7 @@
     "@types/semver": "7.7.0",
     "@typescript-eslint/eslint-plugin": "8.29.0",
     "@typescript-eslint/parser": "8.29.0",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "eslint-config-andrewaylett": "4.0.1",
     "prepackage-checks": "0.2.0",
     "prettier": "3.5.3",
